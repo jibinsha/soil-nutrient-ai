@@ -6,21 +6,21 @@ import folium
 from streamlit_folium import st_folium
 import ee
 
-# ===============================
-# INIT GEE (MANDATORY 🔥)
-# ===============================
+import os
 import json
-import streamlit as st
+
 
 # ===============================
-# GEE INIT (CLOUD SAFE 🔥)
+# GEE INIT (RENDER SAFE)
 # ===============================
-service_account_info = json.loads(st.secrets["EARTHENGINE_TOKEN"])
+service_account_info = json.loads(os.environ["EARTHENGINE_TOKEN"])
 
 credentials = ee.ServiceAccountCredentials(
     service_account_info["client_email"],
     key_data=json.dumps(service_account_info)
 )
+
+ee.Initialize(credentials)
 
 ee.Initialize(credentials)
 
