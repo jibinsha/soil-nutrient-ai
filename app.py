@@ -9,11 +9,20 @@ import ee
 # ===============================
 # INIT GEE (MANDATORY 🔥)
 # ===============================
-try:
-    ee.Initialize(project='soil-nutrient-ai')
-except:
-    ee.Authenticate()
-    ee.Initialize(project='soil-nutrient-ai')
+import json
+import streamlit as st
+
+# ===============================
+# GEE INIT (CLOUD SAFE 🔥)
+# ===============================
+service_account_info = json.loads(st.secrets["EARTHENGINE_TOKEN"])
+
+credentials = ee.ServiceAccountCredentials(
+    service_account_info["client_email"],
+    key_data=json.dumps(service_account_info)
+)
+
+ee.Initialize(credentials)
 
 # ===============================
 # PAGE CONFIG
